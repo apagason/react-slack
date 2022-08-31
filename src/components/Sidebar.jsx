@@ -21,8 +21,6 @@ import AddIcon from "@mui/icons-material/Add";
 export default function Sidebar() {
   const [channels] = useCollection(db.collection("rooms"));
 
-  console.log(channels);
-
   return (
     <SidebarContainer>
       <SidebarHeader>

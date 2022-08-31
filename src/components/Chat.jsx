@@ -23,7 +23,7 @@ export default function Chat() {
         .collection("rooms")
         .doc(roomId)
         .collection("messages")
-        .orderBy("timestamp", "asc")
+        .orderBy("timestamps", "asc")
   );
 
   return (
@@ -44,12 +44,13 @@ export default function Chat() {
       </Header>
       <ChatMessages>
         {roomMessages?.docs.map((doc) => {
-          const { message, timestamp, user, userImage } = doc.data();
+          const { message, timestamps, user, userImage } = doc.data();
+
           return (
             <Message
               key={doc.id}
               message={message}
-              timestamp={timestamp}
+              timestamps={timestamps}
               user={user}
               userImage={userImage}
             />

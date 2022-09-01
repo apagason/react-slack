@@ -6,14 +6,19 @@ import Avatar from "@mui/material/Avatar";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import HelpIcon from "@mui/icons-material/Help";
 import SearchIcon from "@mui/icons-material/Search";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../firebase";
 
 export default function Header() {
+  const [user] = useAuthState(auth);
+
   return (
     <HeaderContainer>
       <HeaderLeft>
         <HeaderAvatar
-          src="https://cdn.myanimelist.net/images/characters/13/409573.jpg"
-          alt="Tanjiro"
+          src={user?.photoURL}
+          alt={user?.displayName}
+          onClick={() => auth.signOut()}
         />
         <AccessTimeIcon />
       </HeaderLeft>

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
 import firebase from "firebase/compat/app";
+import { useAuthState } from "react-firebase-hooks/auth";
 
-export default function ChatInput({ channelName, channelId }) {
+export default function ChatInput({ channelName, channelId, chatRef }) {
   const [input, setInput] = useState("");
+  const [user] = useAuthState(auth);
 
   const sendMessage = (e) => {
     e.preventDefault();
@@ -12,8 +14,12 @@ export default function ChatInput({ channelName, channelId }) {
     db.collection("rooms").doc(channelId).collection("messages").add({
       message: input,
       timestamps: firebase.firestore.FieldValue.serverTimestamp(),
-      user: "Angela Pearl",
-      userImage: "https://cdn.myanimelist.net/images/characters/13/409573.jpg",
+      user: user.displayName,
+      userImage: user.photoURL,
+    });
+
+    chatRef.current.scrollIntoView({
+      behavior: "smooth",
     });
 
     setInput("");
